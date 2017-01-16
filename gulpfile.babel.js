@@ -6,6 +6,8 @@ import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import uglify from 'gulp-uglify';
 
+process.env.NODE_ENV = "production";
+
 let errorHandler = function(msgSource) {
     return function({message, plugin = msgSource}){
         console.error( `\n${plugin}: ${message}\n`);
