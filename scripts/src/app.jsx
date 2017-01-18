@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, Route, Redirect, hashHistory} from 'react-router';
+import Layout from './includes/layouts/default.jsx';
 
 ReactDOM.render(
-  <h1>Hello from React!!!!</h1>,
-  document.getElementById('root')
+  <Router history={hashHistory}>
+    <Route path="/" component={Layout}>
+      Test
+    </Route>
+  </Router>
+  ,document.getElementById('root')
 );

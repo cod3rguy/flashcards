@@ -29,12 +29,15 @@
     "babelify": "^7.3.0",
     "bootstrap": "^3.3.7",
     "browserify": "^13.3.0",
+    "exorcist": "^0.4.0",
     "gulp": "^3.9.1",
+    "gulp-if-else": "^1.0.3",
     "gulp-less": "^3.3.0",
     "gulp-plumber": "^1.1.0",
     "gulp-uglify": "^2.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-router": "^3.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
