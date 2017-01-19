@@ -25151,6 +25151,10 @@ var _home = require('./includes/pages/home.jsx');
 
 var _home2 = _interopRequireDefault(_home);
 
+var _create = require('./includes/pages/create.jsx');
+
+var _create2 = _interopRequireDefault(_create);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom2.default.render(_react2.default.createElement(
@@ -25160,11 +25164,79 @@ _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(
     _reactRouter.Route,
     { path: '/', component: _default2.default },
-    _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default })
+    _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'create', component: _create2.default }),
+    _react2.default.createElement(_reactRouter.Redirect, { from: '*', to: '/home' })
   )
 ), document.getElementById('root'));
 
-},{"./includes/layouts/default.jsx":234,"./includes/pages/home.jsx":235,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
+},{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/home.jsx":237,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NewCard = function (_React$Component) {
+    _inherits(NewCard, _React$Component);
+
+    function NewCard() {
+        _classCallCheck(this, NewCard);
+
+        var _this = _possibleConstructorReturn(this, (NewCard.__proto__ || Object.getPrototypeOf(NewCard)).call(this));
+
+        _this.card = {};
+        return _this;
+    }
+
+    _createClass(NewCard, [{
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement("hr", null),
+                _react2.default.createElement(
+                    "label",
+                    null,
+                    "Card #",
+                    this.props.cardNo
+                ),
+                _react2.default.createElement("input", { type: "text", className: "form-control input-lg", placeholder: "Question",
+                    ref: function ref(question) {
+                        return _this2.card.question = question;
+                    } }),
+                _react2.default.createElement("br", null),
+                _react2.default.createElement("input", { type: "text", className: "form-control input-lg", placeholder: "Answer",
+                    ref: function ref(answer) {
+                        return _this2.card.answer = answer;
+                    } })
+            );
+        }
+    }]);
+
+    return NewCard;
+}(_react2.default.Component);
+
+exports.default = NewCard;
+
+},{"react":230}],235:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25223,7 +25295,7 @@ var DefaultLayout = function (_React$Component) {
 
 exports.default = DefaultLayout;
 
-},{"react":230,"react-dom":46}],235:[function(require,module,exports){
+},{"react":230,"react-dom":46}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25236,9 +25308,101 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
+var _newcard = require('../components/newcard.jsx');
 
-var _reactDom2 = _interopRequireDefault(_reactDom);
+var _newcard2 = _interopRequireDefault(_newcard);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CreatePage = function (_React$Component) {
+    _inherits(CreatePage, _React$Component);
+
+    function CreatePage() {
+        _classCallCheck(this, CreatePage);
+
+        var _this = _possibleConstructorReturn(this, (CreatePage.__proto__ || Object.getPrototypeOf(CreatePage)).call(this));
+
+        _this.state = {
+            'cards': [{}]
+        };
+
+        _this._addCard = _this._addCard.bind(_this);
+        return _this;
+    }
+
+    _createClass(CreatePage, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'main',
+                null,
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-10 col-md-offset-1' },
+                        _react2.default.createElement(
+                            'form',
+                            null,
+                            _react2.default.createElement(
+                                'label',
+                                null,
+                                'Deck Name'
+                            ),
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20' }),
+                            this.state.cards.map(function (card, cardNo) {
+                                return _react2.default.createElement(_newcard2.default, { cardNo: cardNo + 1, key: cardNo });
+                            })
+                        ),
+                        _react2.default.createElement('hr', null),
+                        _react2.default.createElement(
+                            'button',
+                            { type: 'button', className: 'btn btn-success', onClick: this._addCard },
+                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
+                            ' New card'
+                        ),
+                        _react2.default.createElement(
+                            'button',
+                            { type: 'submit', className: 'btn btn-primary pull-right' },
+                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
+                            ' Save Deck'
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: '_addCard',
+        value: function _addCard() {
+            var cards = this.state.cards.concat({});
+            this.setState({ cards: cards });
+        }
+    }]);
+
+    return CreatePage;
+}(_react2.default.Component);
+
+exports.default = CreatePage;
+
+},{"../components/newcard.jsx":234,"react":230}],237:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25300,5 +25464,5 @@ var HomePage = function (_React$Component) {
 
 exports.default = HomePage;
 
-},{"react":230,"react-dom":46}]},{},[233])
+},{"react":230}]},{},[233])
 //# sourceMappingURL=app.js.map
