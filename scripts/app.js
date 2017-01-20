@@ -25171,7 +25171,7 @@ _reactDom2.default.render(_react2.default.createElement(
 ), document.getElementById('root'));
 
 },{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/home.jsx":237,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -25179,7 +25179,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -25199,33 +25199,40 @@ var NewCard = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (NewCard.__proto__ || Object.getPrototypeOf(NewCard)).call(this));
 
-        _this.card = {};
+        _this.card = {
+            'question': '',
+            'answer': ''
+        };
         return _this;
     }
 
     _createClass(NewCard, [{
-        key: "render",
+        key: 'render',
         value: function render() {
             var _this2 = this;
 
             return _react2.default.createElement(
-                "div",
+                'div',
                 null,
-                _react2.default.createElement("hr", null),
+                _react2.default.createElement('hr', null),
                 _react2.default.createElement(
-                    "label",
+                    'label',
                     null,
-                    "Card #",
+                    'Card #',
                     this.props.cardNo
                 ),
-                _react2.default.createElement("input", { type: "text", className: "form-control input-lg", placeholder: "Question",
+                _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'Question',
                     ref: function ref(question) {
                         return _this2.card.question = question;
+                    }, onChange: function onChange() {
+                        _this2.props.handleValue(_this2.props.cardNo, 'question', _this2.card.question.value);
                     } }),
-                _react2.default.createElement("br", null),
-                _react2.default.createElement("input", { type: "text", className: "form-control input-lg", placeholder: "Answer",
+                _react2.default.createElement('br', null),
+                _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'Answer',
                     ref: function ref(answer) {
                         return _this2.card.answer = answer;
+                    }, onChange: function onChange() {
+                        _this2.props.handleValue(_this2.props.cardNo, 'answer', _this2.card.answer.value);
                     } })
             );
         }
@@ -25333,15 +25340,19 @@ var CreatePage = function (_React$Component) {
         };
 
         _this._addCard = _this._addCard.bind(_this);
+        _this._handleValue = _this._handleValue.bind(_this);
+        _this._saveDeck = _this._saveDeck.bind(_this);
         return _this;
     }
 
     _createClass(CreatePage, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'main',
-                null,
+                { className: 'createDeck' },
                 _react2.default.createElement(
                     'div',
                     { className: 'row' },
@@ -25358,7 +25369,7 @@ var CreatePage = function (_React$Component) {
                             ),
                             _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20' }),
                             this.state.cards.map(function (card, cardNo) {
-                                return _react2.default.createElement(_newcard2.default, { cardNo: cardNo + 1, key: cardNo });
+                                return _react2.default.createElement(_newcard2.default, { cardNo: cardNo + 1, key: cardNo, handleValue: _this2._handleValue });
                             })
                         ),
                         _react2.default.createElement('hr', null),
@@ -25370,7 +25381,7 @@ var CreatePage = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'button',
-                            { type: 'submit', className: 'btn btn-primary pull-right' },
+                            { type: 'submit', className: 'btn btn-primary pull-right', onClick: this._saveDeck },
                             _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
                             ' Save Deck'
                         )
@@ -25383,6 +25394,17 @@ var CreatePage = function (_React$Component) {
         value: function _addCard() {
             var cards = this.state.cards.concat({});
             this.setState({ cards: cards });
+        }
+    }, {
+        key: '_saveDeck',
+        value: function _saveDeck() {}
+    }, {
+        key: '_handleValue',
+        value: function _handleValue(cardNo, valType, val) {
+            /*let cards = this.state.cards.slice();
+            cards[cardNo][valType] = val;
+            this.setState({cards: cards});*/
+            console.log(cardNo, valType, val);
         }
     }]);
 
