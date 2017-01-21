@@ -25408,7 +25408,7 @@ var CreatePage = function (_React$Component) {
     }, {
         key: '_chkDeckName',
         value: function _chkDeckName() {
-            if (localStorage.getItem(this.deckName.value)) {
+            if (localStorage.hasOwnProperty(this.deckName.value)) {
                 this.setState({ dupDeck: true });
             } else {
                 this.setState({ dupDeck: false });
@@ -25421,7 +25421,7 @@ var CreatePage = function (_React$Component) {
             var cards = this.state.cards.filter(function (e) {
                 return e.question;
             });
-            localStorage.setItem(this.deckName.value, cards);
+            localStorage[this.deckName.value] = cards;
             alert("Deck Saved!");
             this.props.router.push('/');
         }
@@ -25474,6 +25474,7 @@ var HomePage = function (_React$Component) {
     _createClass(HomePage, [{
         key: 'render',
         value: function render() {
+
             return _react2.default.createElement(
                 'main',
                 null,
@@ -25482,17 +25483,17 @@ var HomePage = function (_React$Component) {
                     { className: 'row lead' },
                     _react2.default.createElement(
                         'ul',
-                        null,
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            'Example list item 1'
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            'Example list item 2'
-                        ),
+                        { className: 'deckList' },
+                        Object.keys(localStorage).map(function (e, i) {
+                            return _react2.default.createElement(
+                                'li',
+                                { key: i },
+                                ' ',
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-chevron-right' }),
+                                ' ',
+                                e
+                            );
+                        }),
                         _react2.default.createElement(
                             'li',
                             null,
@@ -25500,7 +25501,7 @@ var HomePage = function (_React$Component) {
                                 _reactRouter.Link,
                                 { to: '/create' },
                                 _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
-                                ' New item'
+                                ' New Deck'
                             )
                         )
                     )

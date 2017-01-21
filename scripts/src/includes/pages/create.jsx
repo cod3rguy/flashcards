@@ -49,7 +49,7 @@ export default class CreatePage extends React.Component {
     }
     
     _chkDeckName(){
-        if(localStorage.getItem(this.deckName.value)) {
+        if(localStorage.hasOwnProperty(this.deckName.value)) {
             this.setState({dupDeck: true});
         } else {
             this.setState({dupDeck: false});
@@ -59,7 +59,7 @@ export default class CreatePage extends React.Component {
     _saveDeck(e){
         e.preventDefault();
         let cards = this.state.cards.filter(e => e.question);
-        localStorage.setItem(this.deckName.value,cards);
+        localStorage[this.deckName.value] = cards;
         alert("Deck Saved!");
         this.props.router.push('/');
     }
