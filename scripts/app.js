@@ -25418,12 +25418,14 @@ var CreatePage = function (_React$Component) {
         key: '_saveDeck',
         value: function _saveDeck(e) {
             e.preventDefault();
-            var cards = this.state.cards.filter(function (e) {
-                return e.question;
-            });
-            localStorage[this.deckName.value] = JSON.stringify(cards);
-            alert("Deck Saved!");
-            this.props.router.push('/');
+            if (!this.dupDeck) {
+                var cards = this.state.cards.filter(function (e) {
+                    return e.question;
+                });
+                localStorage[this.deckName.value] = JSON.stringify(cards);
+                alert("Deck Saved!");
+                this.props.router.push('/');
+            }
         }
     }, {
         key: '_handleValue',

@@ -15,6 +15,7 @@ export default class CreatePage extends React.Component {
         this._saveDeck = this._saveDeck.bind(this);
         this._chkDeckName = this._chkDeckName.bind(this);
     }
+
     render(){
         return (
             <main className="createDeck">
@@ -58,10 +59,12 @@ export default class CreatePage extends React.Component {
 
     _saveDeck(e){
         e.preventDefault();
-        let cards = this.state.cards.filter(e => e.question);
-        localStorage[this.deckName.value] = JSON.stringify(cards);
-        alert("Deck Saved!");
-        this.props.router.push('/');
+        if(!this.dupDeck) {
+            let cards = this.state.cards.filter(e => e.question);
+            localStorage[this.deckName.value] = JSON.stringify(cards);
+            alert("Deck Saved!");
+            this.props.router.push('/');
+        }
     }
     
     _handleValue(cardNo, valType, val){
