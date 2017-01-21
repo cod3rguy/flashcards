@@ -59,7 +59,7 @@ export default class CreatePage extends React.Component {
 
     _saveDeck(e){
         e.preventDefault();
-        if(!this.dupDeck) {
+        if(!this.state.dupDeck) {
             let cards = this.state.cards.filter(e => e.question);
             localStorage[this.deckName.value] = JSON.stringify(cards);
             alert("Deck Saved!");

@@ -25418,7 +25418,7 @@ var CreatePage = function (_React$Component) {
         key: '_saveDeck',
         value: function _saveDeck(e) {
             e.preventDefault();
-            if (!this.dupDeck) {
+            if (!this.state.dupDeck) {
                 var cards = this.state.cards.filter(function (e) {
                     return e.question;
                 });
