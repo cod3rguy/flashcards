@@ -25155,6 +25155,10 @@ var _create = require('./includes/pages/create.jsx');
 
 var _create2 = _interopRequireDefault(_create);
 
+var _edit = require('./includes/pages/edit.jsx');
+
+var _edit2 = _interopRequireDefault(_edit);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 if (!localStorage.getItem('decks')) localStorage.setItem('decks', JSON.stringify([]));
@@ -25168,12 +25172,12 @@ _reactDom2.default.render(_react2.default.createElement(
     { path: '/', component: _default2.default },
     _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: 'create', component: _create2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: 'edit/', component: _create2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'edit/:deckID', component: _edit2.default }),
     _react2.default.createElement(_reactRouter.Redirect, { from: '*', to: '/home' })
   )
 ), document.getElementById('root'));
 
-},{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/home.jsx":237,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
+},{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/edit.jsx":237,"./includes/pages/home.jsx":238,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25440,7 +25444,7 @@ var CreateDeck = function (_React$Component) {
                 decks.push(deck);
                 localStorage.decks = JSON.stringify(decks);
                 alert("Deck Saved!");
-                this.props.router.push('/');
+                this.props.router.push('/edit/' + deck.deckID);
             }
         }
     }, {
@@ -25458,6 +25462,192 @@ var CreateDeck = function (_React$Component) {
 exports.default = CreateDeck;
 
 },{"../components/card.jsx":234,"react":230}],237:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _card = require('../components/card.jsx');
+
+var _card2 = _interopRequireDefault(_card);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var EditDeck = function (_React$Component) {
+    _inherits(EditDeck, _React$Component);
+
+    function EditDeck(props) {
+        _classCallCheck(this, EditDeck);
+
+        var _this = _possibleConstructorReturn(this, (EditDeck.__proto__ || Object.getPrototypeOf(EditDeck)).call(this, props));
+
+        var params = _this.props.params;
+        _this._deck = JSON.parse(localStorage.decks).filter(function (deck) {
+            return deck.deckID === Number(params.deckID);
+        })[0];
+
+        _this.state = {
+            'dupDeck': false,
+            'cards': _this._deck.cards
+        };
+
+        _this._deckNames = JSON.parse(localStorage.decks).map(function (e) {
+            return e.deckName;
+        });
+        _this._addCard = _this._addCard.bind(_this);
+        _this._handleValue = _this._handleValue.bind(_this);
+        _this._saveDeck = _this._saveDeck.bind(_this);
+        _this._chkDeckName = _this._chkDeckName.bind(_this);
+        return _this;
+    }
+
+    _createClass(EditDeck, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(newProps) {
+            if (newProps.params.deckID !== this._deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'main',
+                { className: 'editDeck' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-10 col-md-offset-1' },
+                        _react2.default.createElement(
+                            'form',
+                            { onSubmit: this._saveDeck },
+                            _react2.default.createElement(
+                                'label',
+                                null,
+                                'Deck Name'
+                            ),
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20', required: true,
+                                ref: function ref(deckName) {
+                                    return _this2.deckName = deckName;
+                                }, onChange: this._chkDeckName,
+                                value: this.deckName ? this.deckName.value : this._deck.deckName }),
+                            this.state.dupDeck && _react2.default.createElement(
+                                'div',
+                                { className: 'alert alert-danger dupDeckAlert' },
+                                'Deck with this name already exists!'
+                            ),
+                            this.state.cards.map(function (card, cardNo) {
+                                return _react2.default.createElement(_card2.default, { cardNo: cardNo + 1, key: '' + _this2._deck.deckID + cardNo, handleValue: _this2._handleValue,
+                                    question: card.question, answer: card.answer });
+                            }),
+                            _react2.default.createElement('hr', null),
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'button', className: 'btn btn-success', onClick: this._addCard },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
+                                ' New card'
+                            ),
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'submit', className: 'btn btn-primary pull-right' },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
+                                ' Save Deck'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: '_addCard',
+        value: function _addCard() {
+            var cards = this.state.cards.concat({});
+            this.setState({ cards: cards });
+        }
+    }, {
+        key: '_chkDeckName',
+        value: function _chkDeckName() {
+            var _this3 = this;
+
+            if (this.deckName.value !== this._deck.deckName && this._deckNames.find(function (e) {
+                return e == _this3.deckName.value;
+            })) {
+                this.setState({ dupDeck: true });
+            } else {
+                this.setState({ dupDeck: false });
+            }
+        }
+    }, {
+        key: '_saveDeck',
+        value: function _saveDeck(e) {
+            e.preventDefault();
+            if (!this.state.dupDeck) {
+                var cards = this.state.cards.filter(function (e) {
+                    return e.question;
+                });
+                var decks = JSON.parse(localStorage.decks);
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = decks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var deck = _step.value;
+
+                        if (Number(deck.deckID) == Number(this._deck.deckID)) {
+                            deck.deckName = this.deckName.value;
+                            deck.cards = cards;
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                localStorage.decks = JSON.stringify(decks);
+                alert("Deck Saved!");
+            }
+        }
+    }, {
+        key: '_handleValue',
+        value: function _handleValue(cardNo, valType, val) {
+            var cards = this.state.cards.slice();
+            cards[cardNo - 1][valType] = val;
+            this.setState({ cards: cards });
+        }
+    }]);
+
+    return EditDeck;
+}(_react2.default.Component);
+
+exports.default = EditDeck;
+
+},{"../components/card.jsx":234,"react":230}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

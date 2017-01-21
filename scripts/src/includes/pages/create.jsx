@@ -72,7 +72,7 @@ export default class CreateDeck extends React.Component {
             decks.push(deck);
             localStorage.decks = JSON.stringify(decks);
             alert("Deck Saved!");
-            this.props.router.push('/');
+            this.props.router.push(`/edit/${deck.deckID}`);
         }
     }
     

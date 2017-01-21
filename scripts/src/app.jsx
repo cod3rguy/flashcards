@@ -4,6 +4,7 @@ import {Router, Route, Redirect, hashHistory} from 'react-router';
 import Layout from './includes/layouts/default.jsx';
 import Home from './includes/pages/home.jsx';
 import Create from './includes/pages/create.jsx';
+import Edit from './includes/pages/edit.jsx';
 
 if(!localStorage.getItem('decks')) localStorage.setItem('decks',JSON.stringify([]));
 
@@ -13,7 +14,7 @@ ReactDOM.render(
     <Route path="/" component={Layout}>
       <Route path="home" component={Home} />
       <Route path="create" component={Create} />
-      <Route path="edit/" component={Create} />
+      <Route path="edit/:deckID" component={Edit} />
       <Redirect from="*" to="/home" />
     </Route>
   </Router>

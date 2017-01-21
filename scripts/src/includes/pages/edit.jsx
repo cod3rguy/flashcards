@@ -2,18 +2,26 @@ import React from 'react';
 import Card from '../components/card.jsx';
 
 export default class EditDeck extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
+        let params = this.props.params;
+        this._deck = JSON.parse(localStorage.decks).filter(deck => deck.deckID === Number(params.deckID))[0];
+        
         this.state = {
             'dupDeck': false,
-            'cards': [{}]
+            'cards': this._deck.cards
         };
 
+        this._deckNames = JSON.parse(localStorage.decks).map(e => e.deckName);
         this._addCard = this._addCard.bind(this);
         this._handleValue = this._handleValue.bind(this);
         this._saveDeck = this._saveDeck.bind(this);
         this._chkDeckName = this._chkDeckName.bind(this);
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.params.deckID !== this._deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
     }
 
     render(){
@@ -24,12 +32,16 @@ export default class EditDeck extends React.Component {
                         <form onSubmit={this._saveDeck}>
                             <label>Deck Name</label>
                             <input type="text" className="form-control input-lg" placeholder="English Vocab Deck 20" required
-                            ref={(deckName) => this.deckName = deckName} onChange={this._chkDeckName} />
+                            ref={(deckName) => this.deckName = deckName} onChange={this._chkDeckName}
+                            value={ this.deckName ? this.deckName.value : this._deck.deckName } />
                             {
                                 this.state.dupDeck &&
                                 <div className="alert alert-danger dupDeckAlert">Deck with this name already exists!</div>
                             }
-                            {this.state.cards.map((card,cardNo) => <Card cardNo={cardNo + 1} key={cardNo} handleValue={this._handleValue}/>)}
+                            {
+                                this.state.cards.map((card,cardNo) => <Card cardNo={cardNo + 1} key={`${this._deck.deckID}${cardNo}`} handleValue={this._handleValue}
+                                question={card.question} answer={card.answer}/>)
+                            }
                             <hr />
                             <button type="button" className="btn btn-success" onClick={this._addCard}>
                                 <i className="glyphicon glyphicon-plus"></i> New card
@@ -50,7 +62,8 @@ export default class EditDeck extends React.Component {
     }
     
     _chkDeckName(){
-        if(localStorage.hasOwnProperty(this.deckName.value)) {
+        
+        if(this.deckName.value !== this._deck.deckName && this._deckNames.find(e => e == this.deckName.value)) {
             this.setState({dupDeck: true});
         } else {
             this.setState({dupDeck: false});
@@ -61,9 +74,15 @@ export default class EditDeck extends React.Component {
         e.preventDefault();
         if(!this.state.dupDeck) {
             let cards = this.state.cards.filter(e => e.question);
-            localStorage[this.deckName.value] = JSON.stringify(cards);
+            let decks = JSON.parse(localStorage.decks);
+            for (let deck of decks) {
+                if(Number(deck.deckID) == Number(this._deck.deckID)) {
+                    deck.deckName = this.deckName.value;
+                    deck.cards = cards;
+                }
+            }
+            localStorage.decks = JSON.stringify(decks);
             alert("Deck Saved!");
-            this.props.router.push('/');
         }
     }
     
