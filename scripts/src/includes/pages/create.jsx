@@ -10,6 +10,7 @@ export default class CreateDeck extends React.Component {
             'cards': [{}]
         };
 
+        this._deckNames = JSON.parse(localStorage.decks).map(e => e.deckName);
         this._addCard = this._addCard.bind(this);
         this._handleValue = this._handleValue.bind(this);
         this._saveDeck = this._saveDeck.bind(this);
@@ -50,7 +51,8 @@ export default class CreateDeck extends React.Component {
     }
     
     _chkDeckName(){
-        if(localStorage.hasOwnProperty(this.deckName.value)) {
+        
+        if(this._deckNames.find(e => e == this.deckName.value)) {
             this.setState({dupDeck: true});
         } else {
             this.setState({dupDeck: false});
@@ -61,7 +63,14 @@ export default class CreateDeck extends React.Component {
         e.preventDefault();
         if(!this.state.dupDeck) {
             let cards = this.state.cards.filter(e => e.question);
-            localStorage[this.deckName.value] = JSON.stringify(cards);
+            let deck = {
+                'deckID': 1,
+                'deckName': this.deckName.value,
+                'cards': cards
+            };
+            let decks = JSON.parse(localStorage.decks);
+            decks.push(deck);
+            localStorage.decks = JSON.stringify(decks);
             alert("Deck Saved!");
             this.props.router.push('/');
         }
