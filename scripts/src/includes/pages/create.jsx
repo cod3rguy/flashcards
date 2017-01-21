@@ -32,12 +32,14 @@ export default class CreateDeck extends React.Component {
                             }
                             {this.state.cards.map((card,cardNo) => <Card cardNo={cardNo + 1} key={cardNo} handleValue={this._handleValue}/>)}
                             <hr />
-                            <button type="button" className="btn btn-success" onClick={this._addCard}>
-                                <i className="glyphicon glyphicon-plus"></i> New card
-                            </button>
-                            <button type="submit" className="btn btn-primary pull-right">
-                                <i className="glyphicon glyphicon-hdd"></i> Save Deck
-                            </button>
+                            <div className="pull-right actionPanel">
+                                <button type="button" className="btn btn-success" onClick={this._addCard}>
+                                    <i className="glyphicon glyphicon-plus"></i> New card
+                                </button>
+                                <button type="submit" className="btn btn-primary">
+                                    <i className="glyphicon glyphicon-hdd"></i> Save Deck
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

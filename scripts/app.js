@@ -25399,16 +25399,20 @@ var CreateDeck = function (_React$Component) {
                             }),
                             _react2.default.createElement('hr', null),
                             _react2.default.createElement(
-                                'button',
-                                { type: 'button', className: 'btn btn-success', onClick: this._addCard },
-                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
-                                ' New card'
-                            ),
-                            _react2.default.createElement(
-                                'button',
-                                { type: 'submit', className: 'btn btn-primary pull-right' },
-                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
-                                ' Save Deck'
+                                'div',
+                                { className: 'pull-right actionPanel' },
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-success', onClick: this._addCard },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
+                                    ' New card'
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'submit', className: 'btn btn-primary' },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
+                                    ' Save Deck'
+                                )
                             )
                         )
                     )
@@ -25508,7 +25512,8 @@ var EditDeck = function (_React$Component) {
 
         _this.state = {
             'dupDeck': false,
-            'cards': _this._deck.cards
+            'cards': _this._deck.cards,
+            'confirmDelete': false
         };
 
         _this._deckNames = JSON.parse(localStorage.decks).map(function (e) {
@@ -25518,6 +25523,7 @@ var EditDeck = function (_React$Component) {
         _this._handleValue = _this._handleValue.bind(_this);
         _this._saveDeck = _this._saveDeck.bind(_this);
         _this._chkDeckName = _this._chkDeckName.bind(_this);
+        _this._deleteDeck = _this._deleteDeck.bind(_this);
         return _this;
     }
 
@@ -25564,16 +25570,27 @@ var EditDeck = function (_React$Component) {
                             }),
                             _react2.default.createElement('hr', null),
                             _react2.default.createElement(
-                                'button',
-                                { type: 'button', className: 'btn btn-success', onClick: this._addCard },
-                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
-                                ' New card'
-                            ),
-                            _react2.default.createElement(
-                                'button',
-                                { type: 'submit', className: 'btn btn-primary pull-right' },
-                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
-                                ' Save Deck'
+                                'div',
+                                { className: 'pull-right actionPanel' },
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-success', onClick: this._addCard },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
+                                    ' New card'
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-danger', onClick: this._deleteDeck },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-trash' }),
+                                    ' ',
+                                    this.state.confirmDelete ? "Confirm Delete?" : "Delete Deck"
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'submit', className: 'btn btn-primary' },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
+                                    ' Save Deck'
+                                )
                             )
                         )
                     )
@@ -25646,6 +25663,21 @@ var EditDeck = function (_React$Component) {
             var cards = this.state.cards.slice();
             cards[cardNo - 1][valType] = val;
             this.setState({ cards: cards });
+        }
+    }, {
+        key: '_deleteDeck',
+        value: function _deleteDeck() {
+            var _this4 = this;
+
+            if (!this.state.confirmDelete) this.setState({ confirmDelete: true });else {
+                var decks = JSON.parse(localStorage.decks);
+                decks = decks.filter(function (deck) {
+                    return Number(deck.deckID) !== Number(_this4._deck.deckID);
+                });
+                localStorage.decks = JSON.stringify(decks);
+                alert("Deck Deleted!");
+                this.props.router.push('/home');
+            }
         }
     }]);
 

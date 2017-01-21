@@ -10,7 +10,8 @@ export default class EditDeck extends React.Component {
         
         this.state = {
             'dupDeck': false,
-            'cards': this._deck.cards
+            'cards': this._deck.cards,
+            'confirmDelete': false
         };
 
         this._deckNames = JSON.parse(localStorage.decks).map(e => e.deckName);
@@ -18,6 +19,7 @@ export default class EditDeck extends React.Component {
         this._handleValue = this._handleValue.bind(this);
         this._saveDeck = this._saveDeck.bind(this);
         this._chkDeckName = this._chkDeckName.bind(this);
+        this._deleteDeck = this._deleteDeck.bind(this);
     }
 
     componentWillReceiveProps(newProps){
@@ -43,12 +45,17 @@ export default class EditDeck extends React.Component {
                                 question={card.question} answer={card.answer}/>)
                             }
                             <hr />
-                            <button type="button" className="btn btn-success" onClick={this._addCard}>
-                                <i className="glyphicon glyphicon-plus"></i> New card
-                            </button>
-                            <button type="submit" className="btn btn-primary pull-right">
-                                <i className="glyphicon glyphicon-hdd"></i> Save Deck
-                            </button>
+                            <div className="pull-right actionPanel">
+                                <button type="button" className="btn btn-success" onClick={this._addCard}>
+                                    <i className="glyphicon glyphicon-plus"></i> New card
+                                </button>
+                                <button type="button" className="btn btn-danger" onClick={this._deleteDeck}>
+                                    <i className="glyphicon glyphicon-trash"></i> {this.state.confirmDelete ? "Confirm Delete?" : "Delete Deck" }
+                                </button>
+                                <button type="submit" className="btn btn-primary">
+                                    <i className="glyphicon glyphicon-hdd"></i> Save Deck
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -90,6 +97,17 @@ export default class EditDeck extends React.Component {
         let cards = this.state.cards.slice();
         cards[cardNo-1][valType] = val;
         this.setState({cards: cards});
+    }
+
+    _deleteDeck(){
+        if(!this.state.confirmDelete) this.setState({confirmDelete: true});
+        else {
+            let decks = JSON.parse(localStorage.decks);
+            decks = decks.filter(deck => Number(deck.deckID) !== Number(this._deck.deckID));
+            localStorage.decks = JSON.stringify(decks);
+            alert("Deck Deleted!");
+            this.props.router.push(`/home`);
+        }
     }
 
 }
