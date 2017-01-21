@@ -25421,7 +25421,7 @@ var CreatePage = function (_React$Component) {
             var cards = this.state.cards.filter(function (e) {
                 return e.question;
             });
-            localStorage[this.deckName.value] = cards;
+            localStorage[this.deckName.value] = JSON.stringify(cards);
             alert("Deck Saved!");
             this.props.router.push('/');
         }
