@@ -1,7 +1,7 @@
 import React from 'react';
-import Card from '../components/newcard.jsx';
+import Card from '../components/card.jsx';
 
-export default class CreatePage extends React.Component {
+export default class CreateDeck extends React.Component {
     constructor(){
         super();
 

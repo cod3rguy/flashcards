@@ -4,20 +4,17 @@ export default class NewCard extends React.Component {
     constructor(){
         super();
 
-        this.card = {
-            'question': '',
-            'answer': ''
-        };
+        this.card = {};
     }
     render(){
         return (
             <div>
                 <hr />
                 <label>Card #{this.props.cardNo}</label>
-                <input type="text" className="form-control input-lg" placeholder="Question" 
+                <input type="text" className="form-control input-lg" placeholder="Question" value={this.props.question || ""}
                 ref={(question) => this.card.question = question} onChange={() => {this.props.handleValue(this.props.cardNo,'question',this.card.question.value)}} />
                 <br />
-                <input type="text" className="form-control input-lg" placeholder="Answer" 
+                <input type="text" className="form-control input-lg" placeholder="Answer" value={this.props.answer || ""}
                 ref={(answer) => this.card.answer = answer} onChange={() => {this.props.handleValue(this.props.cardNo,'answer',this.card.answer.value)}} />
             </div>
         );
