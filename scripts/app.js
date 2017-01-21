@@ -25432,7 +25432,7 @@ var CreateDeck = function (_React$Component) {
                     return e.question;
                 });
                 var deck = {
-                    'deckID': 1,
+                    'deckID': this._deckNames.length + 1,
                     'deckName': this.deckName.value,
                     'cards': cards
                 };
@@ -25502,14 +25502,14 @@ var HomePage = function (_React$Component) {
                     _react2.default.createElement(
                         'ul',
                         { className: 'deckList' },
-                        Object.keys(localStorage).map(function (e, i) {
+                        JSON.parse(localStorage.decks).map(function (deck) {
                             return _react2.default.createElement(
                                 'li',
-                                { key: i },
+                                { key: deck.deckID },
                                 ' ',
                                 _react2.default.createElement('i', { className: 'glyphicon glyphicon-chevron-right' }),
                                 ' ',
-                                e
+                                deck.deckName
                             );
                         }),
                         _react2.default.createElement(

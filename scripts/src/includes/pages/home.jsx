@@ -9,7 +9,7 @@ export default class HomePage extends React.Component {
                 <div className='row lead'>
                     <ul className="deckList">
                         { 
-                            Object.keys(localStorage).map( (e,i) => <li key={i}> <i className="glyphicon glyphicon-chevron-right"></i> {e}</li> ) 
+                            JSON.parse(localStorage.decks).map( deck => <li key={deck.deckID}> <i className="glyphicon glyphicon-chevron-right"></i> {deck.deckName}</li> ) 
                         }
                         <li> 
                             <Link to={'/create'}><i className="glyphicon glyphicon-plus"></i> New Deck</Link>
