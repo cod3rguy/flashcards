@@ -90,6 +90,7 @@ export default class EditDeck extends React.Component {
             }
             localStorage.decks = JSON.stringify(decks);
             alert("Deck Saved!");
+            location.reload();
         }
     }
     

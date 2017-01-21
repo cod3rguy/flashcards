@@ -25163,6 +25163,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 if (!localStorage.getItem('decks')) localStorage.setItem('decks', JSON.stringify([]));
 
+var chkDeckID = function chkDeckID(nextState, replace) {
+  var totalDecks = JSON.parse(localStorage.decks).length;
+  if (nextState.params.deckID > totalDecks) {
+    replace('/home');
+  }
+};
+
 _reactDom2.default.render(_react2.default.createElement(
   _reactRouter.Router,
   { history: _reactRouter.hashHistory },
@@ -25172,7 +25179,7 @@ _reactDom2.default.render(_react2.default.createElement(
     { path: '/', component: _default2.default },
     _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: 'create', component: _create2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: 'edit/:deckID', component: _edit2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'edit/:deckID', component: _edit2.default, onEnter: chkDeckID }),
     _react2.default.createElement(_reactRouter.Redirect, { from: '*', to: '/home' })
   )
 ), document.getElementById('root'));
@@ -25655,6 +25662,7 @@ var EditDeck = function (_React$Component) {
 
                 localStorage.decks = JSON.stringify(decks);
                 alert("Deck Saved!");
+                location.reload();
             }
         }
     }, {
