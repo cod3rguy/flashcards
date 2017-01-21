@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 export default class HomePage extends React.Component {
     render(){
@@ -9,7 +10,7 @@ export default class HomePage extends React.Component {
                         <li>Example list item 1</li>
                         <li>Example list item 2</li>
                         <li> 
-                            <a href><i className="glyphicon glyphicon-plus"></i> New item</a>
+                            <Link to={'/create'}><i className="glyphicon glyphicon-plus"></i> New item</Link>
                         </li>
                     </ul>
                 </div>

@@ -12,8 +12,8 @@
  |
  */
 module.exports = {
+	server: true,
 	files: ['./*.html','./styles/style.css','./scripts/app.js'],
-	proxy: 'localhost',
 	port: 1337,
-	open: false
+	browser: 'google chrome'
 };

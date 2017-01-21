@@ -25336,12 +25336,14 @@ var CreatePage = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (CreatePage.__proto__ || Object.getPrototypeOf(CreatePage)).call(this));
 
         _this.state = {
+            'dupDeck': false,
             'cards': [{}]
         };
 
         _this._addCard = _this._addCard.bind(_this);
         _this._handleValue = _this._handleValue.bind(_this);
         _this._saveDeck = _this._saveDeck.bind(_this);
+        _this._chkDeckName = _this._chkDeckName.bind(_this);
         return _this;
     }
 
@@ -25361,29 +25363,37 @@ var CreatePage = function (_React$Component) {
                         { className: 'col-md-10 col-md-offset-1' },
                         _react2.default.createElement(
                             'form',
-                            null,
+                            { onSubmit: this._saveDeck },
                             _react2.default.createElement(
                                 'label',
                                 null,
                                 'Deck Name'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20' }),
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20', required: true,
+                                ref: function ref(deckName) {
+                                    return _this2.deckName = deckName;
+                                }, onChange: this._chkDeckName }),
+                            this.state.dupDeck && _react2.default.createElement(
+                                'div',
+                                { className: 'alert alert-danger dupDeckAlert' },
+                                'Deck with this name already exists!'
+                            ),
                             this.state.cards.map(function (card, cardNo) {
                                 return _react2.default.createElement(_newcard2.default, { cardNo: cardNo + 1, key: cardNo, handleValue: _this2._handleValue });
-                            })
-                        ),
-                        _react2.default.createElement('hr', null),
-                        _react2.default.createElement(
-                            'button',
-                            { type: 'button', className: 'btn btn-success', onClick: this._addCard },
-                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
-                            ' New card'
-                        ),
-                        _react2.default.createElement(
-                            'button',
-                            { type: 'submit', className: 'btn btn-primary pull-right', onClick: this._saveDeck },
-                            _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
-                            ' Save Deck'
+                            }),
+                            _react2.default.createElement('hr', null),
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'button', className: 'btn btn-success', onClick: this._addCard },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
+                                ' New card'
+                            ),
+                            _react2.default.createElement(
+                                'button',
+                                { type: 'submit', className: 'btn btn-primary pull-right' },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-hdd' }),
+                                ' Save Deck'
+                            )
                         )
                     )
                 )
@@ -25396,15 +25406,31 @@ var CreatePage = function (_React$Component) {
             this.setState({ cards: cards });
         }
     }, {
+        key: '_chkDeckName',
+        value: function _chkDeckName() {
+            if (localStorage.getItem(this.deckName.value)) {
+                this.setState({ dupDeck: true });
+            } else {
+                this.setState({ dupDeck: false });
+            }
+        }
+    }, {
         key: '_saveDeck',
-        value: function _saveDeck() {}
+        value: function _saveDeck(e) {
+            e.preventDefault();
+            var cards = this.state.cards.filter(function (e) {
+                return e.question;
+            });
+            localStorage.setItem(this.deckName.value, cards);
+            alert("Deck Saved!");
+            this.props.router.push('/');
+        }
     }, {
         key: '_handleValue',
         value: function _handleValue(cardNo, valType, val) {
-            /*let cards = this.state.cards.slice();
-            cards[cardNo][valType] = val;
-            this.setState({cards: cards});*/
-            console.log(cardNo, valType, val);
+            var cards = this.state.cards.slice();
+            cards[cardNo - 1][valType] = val;
+            this.setState({ cards: cards });
         }
     }]);
 
@@ -25425,6 +25451,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25469,8 +25497,8 @@ var HomePage = function (_React$Component) {
                             'li',
                             null,
                             _react2.default.createElement(
-                                'a',
-                                { href: true },
+                                _reactRouter.Link,
+                                { to: '/create' },
                                 _react2.default.createElement('i', { className: 'glyphicon glyphicon-plus' }),
                                 ' New item'
                             )
@@ -25486,5 +25514,5 @@ var HomePage = function (_React$Component) {
 
 exports.default = HomePage;
 
-},{"react":230}]},{},[233])
+},{"react":230,"react-router":199}]},{},[233])
 //# sourceMappingURL=app.js.map
