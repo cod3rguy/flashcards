@@ -25266,6 +25266,8 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -25295,6 +25297,11 @@ var DefaultLayout = function (_React$Component) {
                     _react2.default.createElement(
                         'h1',
                         null,
+                        this.props.location.pathname != "/home" && _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/home' },
+                            '../ '
+                        ),
                         'Flashcards'
                     )
                 ),
@@ -25308,7 +25315,7 @@ var DefaultLayout = function (_React$Component) {
 
 exports.default = DefaultLayout;
 
-},{"react":230,"react-dom":46}],236:[function(require,module,exports){
+},{"react":230,"react-dom":46,"react-router":199}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
