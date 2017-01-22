@@ -25723,12 +25723,16 @@ var HomePage = function (_React$Component) {
     function HomePage() {
         _classCallCheck(this, HomePage);
 
-        return _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (HomePage.__proto__ || Object.getPrototypeOf(HomePage)).call(this));
+
+        _this._editDeck = _this._editDeck.bind(_this);
+        return _this;
     }
 
     _createClass(HomePage, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
 
             return _react2.default.createElement(
                 'main',
@@ -25746,7 +25750,13 @@ var HomePage = function (_React$Component) {
                                 ' ',
                                 _react2.default.createElement('i', { className: 'glyphicon glyphicon-chevron-right' }),
                                 ' ',
-                                deck.deckName
+                                deck.deckName,
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-xs btn-info', onClick: _this2._editDeck(deck.deckID) },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-pencil' }),
+                                    ' Edit'
+                                )
                             );
                         }),
                         _react2.default.createElement(
@@ -25762,6 +25772,15 @@ var HomePage = function (_React$Component) {
                     )
                 )
             );
+        }
+    }, {
+        key: '_editDeck',
+        value: function _editDeck(deckID) {
+            var _this3 = this;
+
+            return function () {
+                _this3.props.router.push('/edit/' + deckID);
+            };
         }
     }]);
 

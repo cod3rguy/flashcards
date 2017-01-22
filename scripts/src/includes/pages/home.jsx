@@ -2,6 +2,12 @@ import React from 'react';
 import { Link } from 'react-router';
 
 export default class HomePage extends React.Component {
+    constructor(){
+        super();
+
+        this._editDeck = this._editDeck.bind(this);
+    }
+
     render(){
 
         return (
@@ -9,7 +15,9 @@ export default class HomePage extends React.Component {
                 <div className='row lead'>
                     <ul className="deckList">
                         { 
-                            JSON.parse(localStorage.decks).map( deck => <li key={deck.deckID}> <i className="glyphicon glyphicon-chevron-right"></i> {deck.deckName}</li> ) 
+                            JSON.parse(localStorage.decks).map( deck => <li key={deck.deckID}> <i className="glyphicon glyphicon-chevron-right"></i> {deck.deckName} 
+                            <button type="button" className="btn btn-xs btn-info" onClick={this._editDeck(deck.deckID)}><i className="glyphicon glyphicon-pencil"></i> Edit</button>
+                            </li> ) 
                         }
                         <li> 
                             <Link to={'/create'}><i className="glyphicon glyphicon-plus"></i> New Deck</Link>
@@ -19,5 +27,12 @@ export default class HomePage extends React.Component {
             </main>
         );
     }
+
+    _editDeck(deckID){
+        return () => {
+            this.props.router.push(`/edit/${deckID}`);
+        };
+    }
+
 }
 
