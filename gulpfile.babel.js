@@ -7,8 +7,11 @@ import buffer from 'vinyl-buffer';
 import uglify from 'gulp-uglify';
 import exorcist from 'exorcist';
 import ifElse from 'gulp-if-else';
+import browserSync from 'browser-sync';
 
 process.env.NODE_ENV = "development"; //options: [development, production]
+
+let bs = browserSync.create();
 
 let errorHandler = function(msgSource) {
     return function({message, plugin = msgSource}){
@@ -23,7 +26,8 @@ gulp.task('makeStyle',() => {
     .pipe(less({
         compress: true
     }))
-    .pipe(gulp.dest('./styles/'));
+    .pipe(gulp.dest('./styles/'))
+    .pipe(bs.stream());
 });
 
 gulp.task('makeScript',() => {
@@ -40,8 +44,16 @@ gulp.task('makeScript',() => {
 });
 
 gulp.task('watch', ['makeStyle','makeScript'], () => {
+
+    bs.init({
+        server: "./",
+        port: 1337,
+        browser: 'google chrome'
+    });
+
+    gulp.watch(['./*.html'], () => { bs.reload(); });
     gulp.watch(['./styles/src/*','./styles/src/includes/*'], ['makeStyle']);
-    gulp.watch(['./scripts/src/*','./scripts/src/includes/*','./scripts/src/includes/*/*'], ['makeScript']);
+    gulp.watch(['./scripts/src/*','./scripts/src/includes/*','./scripts/src/includes/*/*'], ['makeScript']).on('change', () => { bs.reload(); });
 });
 
 gulp.task('default', ['watch']);
