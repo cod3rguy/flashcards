@@ -25151,6 +25151,10 @@ var _home = require('./includes/pages/home.jsx');
 
 var _home2 = _interopRequireDefault(_home);
 
+var _deck = require('./includes/pages/deck.jsx');
+
+var _deck2 = _interopRequireDefault(_deck);
+
 var _create = require('./includes/pages/create.jsx');
 
 var _create2 = _interopRequireDefault(_create);
@@ -25178,13 +25182,14 @@ _reactDom2.default.render(_react2.default.createElement(
     _reactRouter.Route,
     { path: '/', component: _default2.default },
     _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'deck', component: _deck2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: 'create', component: _create2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: 'edit/:deckID', component: _edit2.default, onEnter: chkDeckID }),
     _react2.default.createElement(_reactRouter.Redirect, { from: '*', to: '/home' })
   )
 ), document.getElementById('root'));
 
-},{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/edit.jsx":237,"./includes/pages/home.jsx":238,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
+},{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/deck.jsx":237,"./includes/pages/edit.jsx":238,"./includes/pages/home.jsx":239,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25504,6 +25509,130 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var ShowDeck = function (_React$Component) {
+    _inherits(ShowDeck, _React$Component);
+
+    function ShowDeck() {
+        _classCallCheck(this, ShowDeck);
+
+        var _this = _possibleConstructorReturn(this, (ShowDeck.__proto__ || Object.getPrototypeOf(ShowDeck)).call(this));
+
+        _this.state = {
+            'hideAns': true,
+            'deck': {
+                'question': "Some stupid question",
+                'answer': "Some stupid answer"
+            }
+        };
+
+        _this._showAns = _this._showAns.bind(_this);
+
+        return _this;
+    }
+
+    _createClass(ShowDeck, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'main',
+                { className: 'showDeck' },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'row' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'col-md-10 col-md-offset-1' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'panel panel-default' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-heading' },
+                                _react2.default.createElement(
+                                    'strong',
+                                    null,
+                                    this.state.hideAns && "Question",
+                                    !this.state.hideAns && "Answer"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'panel-body' },
+                                _react2.default.createElement(
+                                    'p',
+                                    null,
+                                    this.state.hideAns && this.state.deck.question,
+                                    !this.state.hideAns && this.state.deck.answer
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'pull-right actionPanel' },
+                            this.state.hideAns && _react2.default.createElement(
+                                'button',
+                                { type: 'button', className: 'btn btn-info', onClick: this._showAns },
+                                _react2.default.createElement('i', { className: 'glyphicon glyphicon-eye-open' }),
+                                ' Show Answer'
+                            ),
+                            !this.state.hideAns && _react2.default.createElement(
+                                'span',
+                                null,
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-success' },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-ok' }),
+                                    ' I Know'
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-danger' },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-remove' }),
+                                    ' I Don\'t Know'
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: '_showAns',
+        value: function _showAns() {
+            this.setState({ hideAns: false });
+        }
+    }]);
+
+    return ShowDeck;
+}(_react2.default.Component);
+
+exports.default = ShowDeck;
+
+},{"../components/card.jsx":234,"react":230}],238:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _card = require('../components/card.jsx');
+
+var _card2 = _interopRequireDefault(_card);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var EditDeck = function (_React$Component) {
     _inherits(EditDeck, _React$Component);
 
@@ -25694,7 +25823,7 @@ var EditDeck = function (_React$Component) {
 
 exports.default = EditDeck;
 
-},{"../components/card.jsx":234,"react":230}],238:[function(require,module,exports){
+},{"../components/card.jsx":234,"react":230}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

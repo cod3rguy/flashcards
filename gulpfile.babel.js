@@ -43,6 +43,11 @@ gulp.task('makeScript',() => {
     .pipe(gulp.dest('./scripts/'));
 });
 
+gulp.task('jsx-watch',['makeScript'], function(done) {
+    bs.reload();
+    done();
+});
+
 gulp.task('watch', ['makeStyle','makeScript'], () => {
 
     bs.init({
@@ -53,7 +58,7 @@ gulp.task('watch', ['makeStyle','makeScript'], () => {
 
     gulp.watch(['./*.html'], () => { bs.reload(); });
     gulp.watch(['./styles/src/*','./styles/src/includes/*'], ['makeStyle']);
-    gulp.watch(['./scripts/src/*','./scripts/src/includes/*','./scripts/src/includes/*/*'], ['makeScript']).on('change', () => { bs.reload(); });
+    gulp.watch(['./scripts/src/*','./scripts/src/includes/*','./scripts/src/includes/*/*'], ['jsx-watch']);
 });
 
 gulp.task('default', ['watch']);
