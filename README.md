@@ -9,3 +9,4 @@ Application to build Flashcard Decks, built using React.
 - bootstrap
 - javascript es2015
 - react
+- browser-sync
