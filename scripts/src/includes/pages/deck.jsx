@@ -2,19 +2,24 @@ import React from 'react';
 import Card from '../components/card.jsx';
 
 export default class ShowDeck extends React.Component {
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
 
+        let params = this.props.params;
+        
         this.state = {
             'hideAns' : true,
-            'deck' : {
-                'question' : "Some stupid question",
-                'answer' : "Some stupid answer"
-            }
+            'deck' : JSON.parse(localStorage.decks).filter(deck => deck.deckID === Number(params.deckID))[0],
         };
+
+        this.state.card = this.state.deck.cards[1];
 
         this._showAns = this._showAns.bind(this);
 
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.params.deckID !== this._deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
     }
 
     render(){
@@ -31,8 +36,8 @@ export default class ShowDeck extends React.Component {
                             </div>
                             <div className="panel-body">
                                 <p>
-                                    {this.state.hideAns && this.state.deck.question}
-                                    {!this.state.hideAns && this.state.deck.answer}
+                                    {this.state.hideAns && this.state.card.question}
+                                    {!this.state.hideAns && this.state.card.answer}
                                 </p>
                             </div>
                         </div>

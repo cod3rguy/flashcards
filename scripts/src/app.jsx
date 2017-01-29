@@ -21,9 +21,9 @@ ReactDOM.render(
     <Redirect from="/" to="/home" />
     <Route path="/" component={Layout}>
       <Route path="home" component={Home} />
-      <Route path="deck" component={Deck} />
+      <Route path="deck/:deckID" component={Deck} onEnter={chkDeckID} />
       <Route path="create" component={Create} />
-      <Route path="edit/:deckID" component={Edit} onEnter={chkDeckID}/>
+      <Route path="edit/:deckID" component={Edit} onEnter={chkDeckID} />
       <Redirect from="*" to="/home" />
     </Route>
   </Router>

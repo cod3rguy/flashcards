@@ -25182,7 +25182,7 @@ _reactDom2.default.render(_react2.default.createElement(
     _reactRouter.Route,
     { path: '/', component: _default2.default },
     _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: 'deck', component: _deck2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'deck/:deckID', component: _deck2.default, onEnter: chkDeckID }),
     _react2.default.createElement(_reactRouter.Route, { path: 'create', component: _create2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: 'edit/:deckID', component: _edit2.default, onEnter: chkDeckID }),
     _react2.default.createElement(_reactRouter.Redirect, { from: '*', to: '/home' })
@@ -25512,18 +25512,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ShowDeck = function (_React$Component) {
     _inherits(ShowDeck, _React$Component);
 
-    function ShowDeck() {
+    function ShowDeck(props) {
         _classCallCheck(this, ShowDeck);
 
-        var _this = _possibleConstructorReturn(this, (ShowDeck.__proto__ || Object.getPrototypeOf(ShowDeck)).call(this));
+        var _this = _possibleConstructorReturn(this, (ShowDeck.__proto__ || Object.getPrototypeOf(ShowDeck)).call(this, props));
+
+        var params = _this.props.params;
 
         _this.state = {
             'hideAns': true,
-            'deck': {
-                'question': "Some stupid question",
-                'answer': "Some stupid answer"
-            }
+            'deck': JSON.parse(localStorage.decks).filter(function (deck) {
+                return deck.deckID === Number(params.deckID);
+            })[0]
         };
+
+        _this.state.card = _this.state.deck.cards[1];
 
         _this._showAns = _this._showAns.bind(_this);
 
@@ -25531,6 +25534,11 @@ var ShowDeck = function (_React$Component) {
     }
 
     _createClass(ShowDeck, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(newProps) {
+            if (newProps.params.deckID !== this._deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
@@ -25561,8 +25569,8 @@ var ShowDeck = function (_React$Component) {
                                 _react2.default.createElement(
                                     'p',
                                     null,
-                                    this.state.hideAns && this.state.deck.question,
-                                    !this.state.hideAns && this.state.deck.answer
+                                    this.state.hideAns && this.state.card.question,
+                                    !this.state.hideAns && this.state.card.answer
                                 )
                             )
                         ),
