@@ -25168,8 +25168,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 if (!localStorage.getItem('decks')) localStorage.setItem('decks', JSON.stringify([]));
 
 var chkDeckID = function chkDeckID(nextState, replace) {
-  var totalDecks = JSON.parse(localStorage.decks).length;
-  if (nextState.params.deckID > totalDecks) {
+  var deckIDs = JSON.parse(localStorage.decks).map(function (e) {
+    return e.deckID;
+  });
+  if (!deckIDs.find(function (e) {
+    return e === Number(nextState.params.deckID);
+  })) {
     replace('/home');
   }
 };
@@ -25457,6 +25461,8 @@ var CreateDeck = function (_React$Component) {
             if (!this.state.dupDeck) {
                 var cards = this.state.cards.filter(function (e) {
                     return e.question;
+                }).map(function (e) {
+                    e.learned = 0;return e;
                 });
                 var deck = {
                     'deckID': this._deckNames.length + 1,

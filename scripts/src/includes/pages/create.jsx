@@ -64,7 +64,7 @@ export default class CreateDeck extends React.Component {
     _saveDeck(e){
         e.preventDefault();
         if(!this.state.dupDeck) {
-            let cards = this.state.cards.filter(e => e.question);
+            let cards = this.state.cards.filter(e => e.question).map(e => {e.learned = 0; return e;});
             let deck = {
                 'deckID': this._deckNames.length + 1,
                 'deckName': this.deckName.value,

@@ -10,8 +10,8 @@ import Edit from './includes/pages/edit.jsx';
 if(!localStorage.getItem('decks')) localStorage.setItem('decks',JSON.stringify([]));
 
 const chkDeckID = function(nextState, replace) {
-  let totalDecks = JSON.parse(localStorage.decks).length;
-  if(nextState.params.deckID > totalDecks) {
+  let deckIDs = JSON.parse(localStorage.decks).map(e => e.deckID);
+  if(!deckIDs.find(e => e === Number(nextState.params.deckID))) {
     replace(`/home`);
   }
 };
