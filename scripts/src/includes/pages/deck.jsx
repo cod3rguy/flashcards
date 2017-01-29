@@ -27,16 +27,29 @@ export default class ShowDeck extends React.Component {
     }
 
     render(){
+
+        let panelType = 'default';
+        let labelText = 'New';
+        if(this.state.card.learned > 1 && this.state.card.learned < 5) {
+            panelType = 'warning';
+            labelText = 'Learning';
+        }
+        else if(this.state.card.learned == 5) {
+            panelType = 'success';
+            labelText = 'Mastered';
+        }
+
         return (
             <main className="showDeck">
                 <div className='row'>
                     <div className="col-md-10 col-md-offset-1">
-                        <div className="panel panel-default">
+                        <div className={`panel panel-${panelType}`}>
                             <div className="panel-heading">
                                 <strong>
                                     {this.state.hideAns && "Question"}
                                     {!this.state.hideAns && "Answer"}
                                 </strong>
+                                <span className={`label label-${panelType} pull-right`}>{labelText}</span>
                             </div>
                             <div className="panel-body">
                                 <p>
@@ -89,7 +102,7 @@ export default class ShowDeck extends React.Component {
         deckUpdate.cards = this.state.deck.cards.map(e => {
             if (e.question === this.state.card.question && e.answer === this.state.card.answer) {
                 if(type === 1) e.learned = e.learned < 5 ? e.learned + 1 : 5;
-                else e.learned = e.learned > 1 ? e.learned - 1 : 1;
+                else e.learned = e.learned > 2 ? e.learned - 1 : 2;
             }
             return e;
         });

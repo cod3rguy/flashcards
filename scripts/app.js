@@ -25553,6 +25553,17 @@ var ShowDeck = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+
+            var panelType = 'default';
+            var labelText = 'New';
+            if (this.state.card.learned > 1 && this.state.card.learned < 5) {
+                panelType = 'warning';
+                labelText = 'Learning';
+            } else if (this.state.card.learned == 5) {
+                panelType = 'success';
+                labelText = 'Mastered';
+            }
+
             return _react2.default.createElement(
                 'main',
                 { className: 'showDeck' },
@@ -25564,7 +25575,7 @@ var ShowDeck = function (_React$Component) {
                         { className: 'col-md-10 col-md-offset-1' },
                         _react2.default.createElement(
                             'div',
-                            { className: 'panel panel-default' },
+                            { className: 'panel panel-' + panelType },
                             _react2.default.createElement(
                                 'div',
                                 { className: 'panel-heading' },
@@ -25573,6 +25584,11 @@ var ShowDeck = function (_React$Component) {
                                     null,
                                     this.state.hideAns && "Question",
                                     !this.state.hideAns && "Answer"
+                                ),
+                                _react2.default.createElement(
+                                    'span',
+                                    { className: 'label label-' + panelType + ' pull-right' },
+                                    labelText
                                 )
                             ),
                             _react2.default.createElement(
@@ -25644,7 +25660,7 @@ var ShowDeck = function (_React$Component) {
             var deckUpdate = this.state.deck;
             deckUpdate.cards = this.state.deck.cards.map(function (e) {
                 if (e.question === _this2.state.card.question && e.answer === _this2.state.card.answer) {
-                    if (type === 1) e.learned = e.learned < 5 ? e.learned + 1 : 5;else e.learned = e.learned > 1 ? e.learned - 1 : 1;
+                    if (type === 1) e.learned = e.learned < 5 ? e.learned + 1 : 5;else e.learned = e.learned > 2 ? e.learned - 1 : 2;
                 }
                 return e;
             });
