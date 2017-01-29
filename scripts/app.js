@@ -25773,6 +25773,7 @@ var EditDeck = function (_React$Component) {
         _this._handleValue = _this._handleValue.bind(_this);
         _this._saveDeck = _this._saveDeck.bind(_this);
         _this._chkDeckName = _this._chkDeckName.bind(_this);
+        _this._resetDeck = _this._resetDeck.bind(_this);
         _this._deleteDeck = _this._deleteDeck.bind(_this);
         return _this;
     }
@@ -25834,6 +25835,12 @@ var EditDeck = function (_React$Component) {
                                     _react2.default.createElement('i', { className: 'glyphicon glyphicon-trash' }),
                                     ' ',
                                     this.state.confirmDelete ? "Confirm Delete?" : "Delete Deck"
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'button', className: 'btn btn-warning', onClick: this._resetDeck },
+                                    _react2.default.createElement('i', { className: 'glyphicon glyphicon-refresh' }),
+                                    ' Reset Deck'
                                 ),
                                 _react2.default.createElement(
                                     'button',
@@ -25907,6 +25914,47 @@ var EditDeck = function (_React$Component) {
                 alert("Deck Saved!");
                 location.reload();
             }
+        }
+    }, {
+        key: '_resetDeck',
+        value: function _resetDeck() {
+
+            var cards = this.state.cards.filter(function (e) {
+                return e.question;
+            });
+            var decks = JSON.parse(localStorage.decks);
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = decks[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var deck = _step2.value;
+
+                    if (Number(deck.deckID) == Number(this._deck.deckID)) {
+                        deck.cards = deck.cards.map(function (card) {
+                            card.learned = 1;
+                            return card;
+                        });
+                    }
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
+
+            localStorage.decks = JSON.stringify(decks);
+            alert("This Deck has been Reset");
         }
     }, {
         key: '_handleValue',

@@ -19,6 +19,7 @@ export default class EditDeck extends React.Component {
         this._handleValue = this._handleValue.bind(this);
         this._saveDeck = this._saveDeck.bind(this);
         this._chkDeckName = this._chkDeckName.bind(this);
+        this._resetDeck = this._resetDeck.bind(this);
         this._deleteDeck = this._deleteDeck.bind(this);
     }
 
@@ -51,6 +52,9 @@ export default class EditDeck extends React.Component {
                                 </button>
                                 <button type="button" className="btn btn-danger" onClick={this._deleteDeck}>
                                     <i className="glyphicon glyphicon-trash"></i> {this.state.confirmDelete ? "Confirm Delete?" : "Delete Deck" }
+                                </button>
+                                <button type="button" className="btn btn-warning" onClick={this._resetDeck}>
+                                    <i className="glyphicon glyphicon-refresh"></i> Reset Deck
                                 </button>
                                 <button type="submit" className="btn btn-primary">
                                     <i className="glyphicon glyphicon-hdd"></i> Save Deck
@@ -92,6 +96,23 @@ export default class EditDeck extends React.Component {
             alert("Deck Saved!");
             location.reload();
         }
+    }
+
+    _resetDeck(){
+
+        let cards = this.state.cards.filter(e => e.question);
+        let decks = JSON.parse(localStorage.decks);
+        for (let deck of decks) {
+            if(Number(deck.deckID) == Number(this._deck.deckID)) {
+                deck.cards = deck.cards.map(card => {
+                    card.learned = 1;
+                    return card;
+                });
+            }
+        }
+        localStorage.decks = JSON.stringify(decks);
+        alert("This Deck has been Reset!");
+
     }
     
     _handleValue(cardNo, valType, val){
