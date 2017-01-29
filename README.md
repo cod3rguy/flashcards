@@ -13,3 +13,11 @@ Application to build Flashcard Decks, built using React.
 - babel
 - browser-sync
 - gulp
+
+### How to
+
+- `git clone <url>`
+- `npm install`
+- `npm start`
+
+To remove the example data (JavaScript deck), edit `/scripts/src/includes/data-config.js`.
