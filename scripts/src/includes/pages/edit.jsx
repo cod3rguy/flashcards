@@ -34,7 +34,7 @@ export default class EditDeck extends React.Component {
                     <div className="col-md-10 col-md-offset-1">
                         <form onSubmit={this._saveDeck}>
                             <label>Deck Name</label>
-                            <input type="text" className="form-control input-lg" placeholder="English Vocab Deck 20" required
+                            <input type="text" className="form-control input-lg" placeholder="Ex. - English Vocab Deck 20" required
                             ref={(deckName) => this.deckName = deckName} onChange={this._chkDeckName}
                             value={ this.deckName ? this.deckName.value : this._deck.deckName } />
                             {

@@ -23,7 +23,8 @@ export default class ShowDeck extends React.Component {
     }
 
     componentWillReceiveProps(newProps){
-        if(newProps.params.deckID !== this._deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
+        console.log(newProps);
+        if(newProps.params.deckID !== this.state.deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
     }
 
     render(){
@@ -54,7 +55,13 @@ export default class ShowDeck extends React.Component {
                             <div className="panel-body">
                                 <p>
                                     {this.state.hideAns && this.state.card.question}
-                                    {!this.state.hideAns && this.state.card.answer}
+                                    {
+                                        !this.state.hideAns &&
+                                        <span>
+                                            <strong className="text-primary">{this.state.card.question}</strong> <br/><br/>
+                                            {this.state.card.answer}
+                                        </span>
+                                    }
                                 </p>
                             </div>
                         </div>
@@ -69,10 +76,10 @@ export default class ShowDeck extends React.Component {
                                 !this.state.hideAns &&
                                 <span>
                                     <button type="button" className="btn btn-success" onClick={this._nextQUp}>
-                                        <i className="glyphicon glyphicon-ok"></i> I Know
+                                        <i className="glyphicon glyphicon-ok"></i> I Knew
                                     </button>
                                     <button type="button" className="btn btn-danger" onClick={this._nextQDown}>
-                                        <i className="glyphicon glyphicon-remove"></i> I Don't Know
+                                        <i className="glyphicon glyphicon-remove"></i> I Didn't Know
                                     </button>
                                 </span>
                             }
@@ -106,7 +113,6 @@ export default class ShowDeck extends React.Component {
             }
             return e;
         });
-        console.log(this.state.deck, deckUpdate);
         let decks = JSON.parse(localStorage.decks);
         for (let deck of decks) {
             if(Number(deck.deckID) === Number(this.state.deck.deckID)) {

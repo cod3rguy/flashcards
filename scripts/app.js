@@ -25401,7 +25401,7 @@ var CreateDeck = function (_React$Component) {
                                 null,
                                 'Deck Name'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20', required: true,
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'Ex. - English Vocab Deck 20', required: true,
                                 ref: function ref(deckName) {
                                     return _this2.deckName = deckName;
                                 }, onChange: this._chkDeckName }),
@@ -25548,7 +25548,8 @@ var ShowDeck = function (_React$Component) {
     _createClass(ShowDeck, [{
         key: 'componentWillReceiveProps',
         value: function componentWillReceiveProps(newProps) {
-            if (newProps.params.deckID !== this._deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
+            console.log(newProps);
+            if (newProps.params.deckID !== this.state.deck.deckID && newProps.params.deckID <= JSON.parse(localStorage.decks).length) location.reload();
         }
     }, {
         key: 'render',
@@ -25598,7 +25599,19 @@ var ShowDeck = function (_React$Component) {
                                     'p',
                                     null,
                                     this.state.hideAns && this.state.card.question,
-                                    !this.state.hideAns && this.state.card.answer
+                                    !this.state.hideAns && _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        _react2.default.createElement(
+                                            'strong',
+                                            { className: 'text-primary' },
+                                            this.state.card.question
+                                        ),
+                                        ' ',
+                                        _react2.default.createElement('br', null),
+                                        _react2.default.createElement('br', null),
+                                        this.state.card.answer
+                                    )
                                 )
                             )
                         ),
@@ -25618,13 +25631,13 @@ var ShowDeck = function (_React$Component) {
                                     'button',
                                     { type: 'button', className: 'btn btn-success', onClick: this._nextQUp },
                                     _react2.default.createElement('i', { className: 'glyphicon glyphicon-ok' }),
-                                    ' I Know'
+                                    ' I Knew'
                                 ),
                                 _react2.default.createElement(
                                     'button',
                                     { type: 'button', className: 'btn btn-danger', onClick: this._nextQDown },
                                     _react2.default.createElement('i', { className: 'glyphicon glyphicon-remove' }),
-                                    ' I Don\'t Know'
+                                    ' I Didn\'t Know'
                                 )
                             )
                         )
@@ -25664,7 +25677,6 @@ var ShowDeck = function (_React$Component) {
                 }
                 return e;
             });
-            console.log(this.state.deck, deckUpdate);
             var decks = JSON.parse(localStorage.decks);
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
@@ -25805,7 +25817,7 @@ var EditDeck = function (_React$Component) {
                                 null,
                                 'Deck Name'
                             ),
-                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'English Vocab Deck 20', required: true,
+                            _react2.default.createElement('input', { type: 'text', className: 'form-control input-lg', placeholder: 'Ex. - English Vocab Deck 20', required: true,
                                 ref: function ref(deckName) {
                                     return _this2.deckName = deckName;
                                 }, onChange: this._chkDeckName,
@@ -25954,7 +25966,7 @@ var EditDeck = function (_React$Component) {
             }
 
             localStorage.decks = JSON.stringify(decks);
-            alert("This Deck has been Reset");
+            alert("This Deck has been Reset!");
         }
     }, {
         key: '_handleValue',
