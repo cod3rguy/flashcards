@@ -25163,9 +25163,11 @@ var _edit = require('./includes/pages/edit.jsx');
 
 var _edit2 = _interopRequireDefault(_edit);
 
+var _dataConfig = require('./includes/data-config.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-if (!localStorage.getItem('decks')) localStorage.setItem('decks', JSON.stringify([]));
+if (!localStorage.getItem('decks')) localStorage.setItem('decks', JSON.stringify(_dataConfig.Data));
 
 var chkDeckID = function chkDeckID(nextState, replace) {
   var deckIDs = JSON.parse(localStorage.decks).map(function (e) {
@@ -25193,7 +25195,7 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), document.getElementById('root'));
 
-},{"./includes/layouts/default.jsx":235,"./includes/pages/create.jsx":236,"./includes/pages/deck.jsx":237,"./includes/pages/edit.jsx":238,"./includes/pages/home.jsx":239,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
+},{"./includes/data-config.js":235,"./includes/layouts/default.jsx":236,"./includes/pages/create.jsx":237,"./includes/pages/deck.jsx":238,"./includes/pages/edit.jsx":239,"./includes/pages/home.jsx":240,"react":230,"react-dom":46,"react-router":199}],234:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25266,6 +25268,20 @@ var NewCard = function (_React$Component) {
 exports.default = NewCard;
 
 },{"react":230}],235:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+// The initial data may be set here.
+
+//Define own data, use example data or set data to empty array. 
+
+//export const Data = [];  // An empty array must be returned at the least.
+
+var Data = exports.Data = [{ "deckID": 1, "deckName": "JavaScript", "cards": [{ "question": "Method to insert element in front of an array?", "answer": "Array.prototype.unshift( )", "learned": 1 }, { "question": "How to make shallow copy of an array?", "answer": "arr1 = [1,2,3,4,5]; arr2 = arr1.slice( );", "learned": 1 }, { "question": "Method to delete the last element of an array?", "answer": "Array.prototype.pop( )", "learned": 1 }, { "question": "Method to delete first element of an array?", "answer": "Array.prototype.push( )", "learned": 1 }, { "question": "How to use the properties and methods of a parent class in the child class constructor?", "answer": "By calling the super( ) method with the required property or method as parameter.", "learned": 1 }, { "question": "Is Array.prototype.shift( ) chain-able with other array methods?", "answer": "No. Because it returns the element that it removes from the given array and does not return any reference to the array itself.", "learned": 1 }, { "question": "Is JavaScript a loosely typed language?", "answer": "Yes. Variables data types do not need to be defined and can change during runtime.", "learned": 1 }, { "question": "Is JavaScript similar to Java ?", "answer": "Yes. JavaScript borrows a lot of syntax and semantics from Java. However, they are two completely different languages and not the same.", "learned": 1 }, { "question": "Is JavaScript just a front-end scripting language?", "answer": "Yes. Vanilla JavaScript is just a front-end scripting language. However, with implementations like as Node.js, it can easily be used on the server-side.", "learned": 1 }, { "question": "How is React different from Angular ?", "answer": "React is a library which allows easy DOM manipulation and View state control whereas Angular is a full fledged framework which integrates and manages the Model and View logic allowing flow of information between them.", "learned": 1 }, { "question": "What is a Map ?", "answer": "Map is a new data structure introduced in ES2015 which is similar to Objects in that it stores data in a key:value format, but different in that it can use Objects as keys instead of just Object names as string keys.", "learned": 1 }, { "question": "What are rest parameters?", "answer": "Introduced in ES2015, rest parameters allow values in an iterative data structure to be passed as discrete arguments to a function or method. Ex. let arr = [\"javascript\", \"script.js\", 55, 3]; getScript(...arr);", "learned": 1 }, { "question": "How to easily swap values of two variables?", "answer": "[a, b] = [b, a]", "learned": 1 }, { "question": "Which method of the Object prototype can be overridden to set the primitive value of an object ?", "answer": "valueOf( )", "learned": 1 }, { "question": "React and Angular are open source projects by which two companies?", "answer": "Facebook and Google.", "learned": 1 }] }];
+
+},{}],236:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25331,7 +25347,7 @@ var DefaultLayout = function (_React$Component) {
 
 exports.default = DefaultLayout;
 
-},{"react":230,"react-dom":46,"react-router":199}],236:[function(require,module,exports){
+},{"react":230,"react-dom":46,"react-router":199}],237:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25490,7 +25506,7 @@ var CreateDeck = function (_React$Component) {
 
 exports.default = CreateDeck;
 
-},{"../components/card.jsx":234,"react":230}],237:[function(require,module,exports){
+},{"../components/card.jsx":234,"react":230}],238:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25734,7 +25750,7 @@ function getRandom(min, max) {
     return Math.random() * (max - min + 1) + min;
 }
 
-},{"../components/card.jsx":234,"react":230}],238:[function(require,module,exports){
+},{"../components/card.jsx":234,"react":230}],239:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -25997,7 +26013,7 @@ var EditDeck = function (_React$Component) {
 
 exports.default = EditDeck;
 
-},{"../components/card.jsx":234,"react":230}],239:[function(require,module,exports){
+},{"../components/card.jsx":234,"react":230}],240:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
