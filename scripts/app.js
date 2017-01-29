@@ -25462,7 +25462,7 @@ var CreateDeck = function (_React$Component) {
                 var cards = this.state.cards.filter(function (e) {
                     return e.question;
                 }).map(function (e) {
-                    e.learned = 0;return e;
+                    e.learned = 1;return e;
                 });
                 var deck = {
                     'deckID': this._deckNames.length + 1,
@@ -25509,6 +25509,8 @@ var _card2 = _interopRequireDefault(_card);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -25532,9 +25534,13 @@ var ShowDeck = function (_React$Component) {
             })[0]
         };
 
-        _this.state.card = _this.state.deck.cards[1];
-
         _this._showAns = _this._showAns.bind(_this);
+        _this._getCard = _this._getCard.bind(_this);
+        _this._nextQ = _this._nextQ.bind(_this);
+        _this._nextQUp = _this._nextQUp.bind(_this);
+        _this._nextQDown = _this._nextQDown.bind(_this);
+
+        _this.state.card = _this._getCard();
 
         return _this;
     }
@@ -25594,13 +25600,13 @@ var ShowDeck = function (_React$Component) {
                                 null,
                                 _react2.default.createElement(
                                     'button',
-                                    { type: 'button', className: 'btn btn-success' },
+                                    { type: 'button', className: 'btn btn-success', onClick: this._nextQUp },
                                     _react2.default.createElement('i', { className: 'glyphicon glyphicon-ok' }),
                                     ' I Know'
                                 ),
                                 _react2.default.createElement(
                                     'button',
-                                    { type: 'button', className: 'btn btn-danger' },
+                                    { type: 'button', className: 'btn btn-danger', onClick: this._nextQDown },
                                     _react2.default.createElement('i', { className: 'glyphicon glyphicon-remove' }),
                                     ' I Don\'t Know'
                                 )
@@ -25615,12 +25621,90 @@ var ShowDeck = function (_React$Component) {
         value: function _showAns() {
             this.setState({ hideAns: false });
         }
+    }, {
+        key: '_getCard',
+        value: function _getCard() {
+            var cardSet = Array.apply(undefined, _toConsumableArray(this.state.deck.cards.map(function (e, i) {
+                return { 'order': i, 'chance': e.learned };
+            })));
+            cardSet = cardSet.map(function (e) {
+                var max = 100 / e.chance;
+                e.chance = getRandom(1, max);
+                return e;
+            }).sort(function (a, b) {
+                return b.chance - a.chance;
+            });
+            return this.state.deck.cards[cardSet[0].order];
+        }
+    }, {
+        key: '_nextQ',
+        value: function _nextQ(type) {
+            var _this2 = this;
+
+            var deckUpdate = this.state.deck;
+            deckUpdate.cards = this.state.deck.cards.map(function (e) {
+                if (e.question === _this2.state.card.question && e.answer === _this2.state.card.answer) {
+                    if (type === 1) e.learned = e.learned < 5 ? e.learned + 1 : 5;else e.learned = e.learned > 1 ? e.learned - 1 : 1;
+                }
+                return e;
+            });
+            console.log(this.state.deck, deckUpdate);
+            var decks = JSON.parse(localStorage.decks);
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = decks[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var deck = _step.value;
+
+                    if (Number(deck.deckID) === Number(this.state.deck.deckID)) {
+                        deck.cards = deckUpdate.cards;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            localStorage.decks = JSON.stringify(decks);
+            this.setState({
+                hideAns: true,
+                deck: deckUpdate,
+                card: this._getCard()
+            });
+        }
+    }, {
+        key: '_nextQUp',
+        value: function _nextQUp() {
+            this._nextQ(1);
+        }
+    }, {
+        key: '_nextQDown',
+        value: function _nextQDown() {
+            this._nextQ(0);
+        }
     }]);
 
     return ShowDeck;
 }(_react2.default.Component);
 
 exports.default = ShowDeck;
+
+
+function getRandom(min, max) {
+    return Math.random() * (max - min + 1) + min;
+}
 
 },{"../components/card.jsx":234,"react":230}],238:[function(require,module,exports){
 'use strict';
