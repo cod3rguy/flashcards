@@ -25992,8 +25992,11 @@ var HomePage = function (_React$Component) {
                                 { key: deck.deckID },
                                 ' ',
                                 _react2.default.createElement('i', { className: 'glyphicon glyphicon-chevron-right' }),
-                                ' ',
-                                deck.deckName,
+                                _react2.default.createElement(
+                                    _reactRouter.Link,
+                                    { to: '/deck/' + deck.deckID },
+                                    deck.deckName
+                                ),
                                 _react2.default.createElement(
                                     'button',
                                     { type: 'button', className: 'btn btn-xs btn-info', onClick: _this2._editDeck(deck.deckID) },

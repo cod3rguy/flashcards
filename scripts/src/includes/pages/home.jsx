@@ -15,7 +15,8 @@ export default class HomePage extends React.Component {
                 <div className='row lead'>
                     <ul className="deckList">
                         { 
-                            JSON.parse(localStorage.decks).map( deck => <li key={deck.deckID}> <i className="glyphicon glyphicon-chevron-right"></i> {deck.deckName} 
+                            JSON.parse(localStorage.decks).map( deck => <li key={deck.deckID}> <i className="glyphicon glyphicon-chevron-right"></i> 
+                            <Link to={`/deck/${deck.deckID}`}>{deck.deckName}</Link>
                             <button type="button" className="btn btn-xs btn-info" onClick={this._editDeck(deck.deckID)}><i className="glyphicon glyphicon-pencil"></i> Edit</button>
                             </li> ) 
                         }
