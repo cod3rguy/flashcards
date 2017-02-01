@@ -2,8 +2,6 @@
 
 Application to build Flashcard Decks, built using React.
 
-Hosted at: https://lab.coderguy.tech/flashcards
-
 ### Technologies Used
 
 - html
